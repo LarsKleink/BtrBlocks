@@ -1,4 +1,5 @@
-// cmake command: cmake --build . --target my_compression 
+// cmake command: cmake --build . --target my_compression
+// test commit
 
 // ------------------------------------------------------------------------------
 // Simple Example: Compress Columns with btrblocks
