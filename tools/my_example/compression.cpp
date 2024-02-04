@@ -161,6 +161,13 @@ int main(int argc, char *argv[]) {
         }
     }
     std::cout << (check ? "decompressed data matches original data" : "decompressed data does not match original data") << std::endl;
+    
+    std::ofstream statsfile;
+    statsfile.open("/home/lars/prj/Bachelorarbeit/results/btrblocks.csv");
+    statsfile << input.size_bytes() << "\n";
+    statsfile << stats.total_data_size<< "\n";
+    statsfile << stats.compression_ratio << "\n";
+    
     return !check;
 }
 // ------------------------------------------------------------------------------
