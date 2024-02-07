@@ -329,8 +329,8 @@ OutputBlockStats Datablock::compress(const Chunk& input_chunk, BytesArray& outpu
   output_db_stats.total_db_size +=
       output_db_stats.total_nullmap_size + output_db_stats.total_data_size;
   assert(db_write_offset <= output_db_stats.total_db_size);
-  output_db_stats.compression_ratio = static_cast<double>(input_chunk_total_data_size) /
-                                      static_cast<double>(output_db_stats.total_data_size);
+  output_db_stats.compression_ratio = static_cast<double>(output_db_stats.total_data_size) /
+                                      static_cast<double>(input_chunk_total_data_size);
   // -------------------------------------------------------------------------------------
   db_meta->size = output_db_stats.total_db_size;
   // -------------------------------------------------------------------------------------

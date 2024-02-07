@@ -125,7 +125,10 @@ int main(int argc, char *argv[]) {
 
     // compress the data; return value contains some statistics about the
     // overall compression, used schemes and individual columns
+    auto start = std::chrono::high_resolution_clock::now();
     auto stats = compressor.compress(input, output);
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto comp_time = std::chrono::duration_cast<std::chrono::microseconds>(finish-start);
 
     // compile with BTR_FLAG_LOGGING (cmake -DWITH_LOGGING=ON ..) to
     // get more insights into the compression process
@@ -140,7 +143,10 @@ int main(int argc, char *argv[]) {
     // -------------------------------------------------------------------------------------
     // decompression
     // -------------------------------------------------------------------------------------
+    start = std::chrono::high_resolution_clock::now();
     Chunk decompressed = compressor.decompress(output);
+    finish = std::chrono::high_resolution_clock::now();
+    auto decomp_time = std::chrono::duration_cast<std::chrono::microseconds>(finish-start);
 
     // check if the decompressed data is the same as the original data
     bool check;
@@ -164,9 +170,13 @@ int main(int argc, char *argv[]) {
     
     std::ofstream statsfile;
     statsfile.open("/home/lars/prj/Bachelorarbeit/results/btrblocks.csv");
-    statsfile << input.size_bytes() << "\n";
-    statsfile << stats.total_data_size<< "\n";
-    statsfile << stats.compression_ratio << "\n";
+    //statsfile << input.size_bytes() << "\n";
+    //statsfile << stats.total_data_size<< "\n";
+    statsfile << stats.compression_ratio << "," << std::to_string(comp_time.count()) << "," << std::to_string(decomp_time.count());
+    //statsfile << std::to_string(comp_time.count()) << "\t";
+    //statsfile << std::to_string(decomp_time.count()) << "\t";
+
+    statsfile.close();
     
     return !check;
 }
